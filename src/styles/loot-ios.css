@@ -1,0 +1,1460 @@
+/* ══════════════════════════════════════════════════════════════
+   Loot 存钱罐 - 顶级 iOS 拟物毛玻璃与 Apple Design 样式规范
+   支持 Apple 深色模式 (Dark) 与海文娜温润象牙白 (Ivory White)
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* 基础色彩系统 (默认象牙白暖白质感) */
+  --loot-bg: #faf9f6;
+  --loot-card-bg: rgba(255, 255, 255, 0.92);
+  --loot-card-solid: #ffffff;
+  --loot-border: #e6e2d8;
+  --loot-border-light: rgba(0, 0, 0, 0.06);
+  --loot-text-primary: #0f172a;
+  --loot-text-main: #0f172a;
+  --loot-text-secondary: #475569;
+  --loot-text-muted: #8b9bb0;
+  --loot-tint: #22c55e;
+  --loot-tint-dark: #16a34a;
+  --loot-tint-gold: #f59e0b;
+  --loot-jar-title-color: #1e293b;
+  --loot-glass-sheen: rgba(255, 255, 255, 0.7);
+  --loot-shadow-sm: 0 2px 8px rgba(60, 50, 40, 0.04);
+  --loot-shadow-md: 0 12px 32px rgba(60, 50, 40, 0.08);
+  --loot-shadow-jar: 0 20px 48px rgba(60, 50, 40, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --loot-safe-top: env(safe-area-inset-top, 20px);
+  --loot-safe-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+/* 深色模式 */
+[data-theme="dark"],
+.theme-dark {
+  --loot-bg: #0b0f17;
+  --loot-card-bg: rgba(18, 25, 32, 0.92);
+  --loot-card-solid: #151b26;
+  --loot-border: rgba(255, 255, 255, 0.1);
+  --loot-border-light: rgba(255, 255, 255, 0.06);
+  --loot-text-primary: #f8fafc;
+  --loot-text-main: #f8fafc;
+  --loot-text-secondary: #94a3b8;
+  --loot-text-muted: #64748b;
+  --loot-tint: #22c55e;
+  --loot-tint-dark: #16a34a;
+  --loot-jar-title-color: #f1f5f9;
+  --loot-glass-sheen: rgba(255, 255, 255, 0.15);
+  --loot-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --loot-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --loot-shadow-jar: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(34, 197, 94, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+html,
+body {
+  background-color: var(--loot-bg, #faf9f6);
+  color: var(--loot-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  line-height: 1.45;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--loot-bg, #faf9f6);
+}
+
+/* ── 桌面端 iPhone 仿真外壳容器 ── */
+.loot-desktop-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: radial-gradient(circle at 50% 20%, #16242c 0%, #080d10 100%);
+  position: relative;
+}
+
+.loot-phone-frame {
+  width: 100%;
+  max-width: 400px;
+  height: 844px;
+  max-height: 94vh;
+  background: var(--loot-bg);
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 12px #1f2937,
+    0 0 0 14px #374151,
+    0 25px 60px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(13, 148, 136, 0.15);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 灵动岛 (Dynamic Island) */
+.loot-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 116px;
+  height: 32px;
+  background: #000000;
+  border-radius: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.loot-island__lens {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1e293b 0%, #030712 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.loot-island__sensor {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #090d16;
+}
+
+/* 全屏纯净模式（真机 / 手机浏览器） */
+.loot-phone-frame.is-standalone {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-height: none;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: var(--loot-bg);
+}
+
+.loot-phone-frame.is-standalone .loot-island {
+  display: none;
+}
+
+/* 顶部状态栏模拟 */
+.loot-status-bar {
+  height: calc(var(--loot-safe-top) + 24px);
+  padding: var(--loot-safe-top) 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--loot-text-primary);
+  z-index: 99;
+}
+
+.loot-status-bar__icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+/* ── 核心滚动应用视口 ── */
+.loot-app-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 18px calc(var(--loot-safe-bottom) + 80px);
+  position: relative;
+  scrollbar-width: none;
+}
+
+.loot-app-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── 顶部导航栏 (Navbar) ── */
+.loot-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.loot-navbar__title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.loot-navbar__badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--loot-tint);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.loot-navbar__title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--loot-text-primary);
+}
+
+.loot-navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loot-btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--loot-card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--loot-border);
+  color: var(--loot-text-primary);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: var(--loot-shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-btn-circle:active {
+  transform: scale(0.92);
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* ── 核心 3D 毛玻璃存钱罐（Money Jar） ── */
+.loot-jar-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 12px 0 20px;
+}
+
+.loot-jar-container {
+  width: 250px;
+  height: 330px;
+  position: relative;
+  cursor: pointer;
+  perspective: 1000px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-jar-container:active {
+  transform: scale(0.97);
+}
+
+/* 玻璃罐体 SVG 容器 */
+.loot-jar-glass {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  filter: drop-shadow(0 16px 36px var(--jar-glow, rgba(13, 148, 136, 0.25)));
+}
+
+/* 罐内金币液面动效 */
+.loot-jar-liquid-wave {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  border-radius: 0 0 42px 42px;
+  background: linear-gradient(180deg, var(--jar-liquid-start) 0%, var(--jar-liquid-end) 100%);
+  overflow: hidden;
+  transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.loot-jar-liquid-wave::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -50%;
+  width: 200%;
+  height: 24px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.45), transparent 70%);
+  border-radius: 50%;
+  animation: liquid-slosh 4s ease-in-out infinite alternate;
+}
+
+@keyframes liquid-slosh {
+  0% { transform: translateX(-5%) rotate(-2deg); }
+  100% { transform: translateX(5%) rotate(2deg); }
+}
+
+/* 罐内浮动金币图元 */
+.loot-jar-coins {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 0 0 42px 42px;
+}
+
+.loot-jar-coin {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fef08a 0%, #eab308 60%, #b45309 100%);
+  border: 1.5px solid #fde047;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #78350f;
+  animation: coin-settle 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes coin-settle {
+  0% { transform: translateY(-40px) rotate(0deg) scale(0.6); opacity: 0; }
+  100% { transform: translateY(0) rotate(var(--rot, 15deg)) scale(1); opacity: 1; }
+}
+
+/* 罐身贴纸与标签 (Emoji + Name Tag) */
+.loot-jar-tag {
+  position: absolute;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--loot-card-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--loot-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  padding: 10px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2px;
+  max-width: 80%;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.loot-jar-tag__emoji {
+  font-size: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.loot-jar-tag__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--loot-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.loot-jar-tag__percent {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--loot-tint);
+  background: rgba(13, 148, 136, 0.12);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+/* 罐子指示器与切换圆点 */
+.loot-jar-dots {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.loot-jar-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--loot-border);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.loot-jar-dot.is-active {
+  width: 18px;
+  border-radius: 6px;
+  background: var(--loot-tint);
+}
+
+/* ── 金额概览与存钱快捷条 ── */
+.loot-amount-card {
+  background: var(--loot-card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--loot-border);
+  border-radius: 28px;
+  padding: 20px;
+  box-shadow: var(--loot-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.loot-amount-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.loot-amount-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--loot-text-secondary);
+}
+
+.loot-amount-numbers {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.loot-amount-curr {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--loot-tint);
+}
+
+.loot-amount-val {
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--loot-text-primary);
+}
+
+.loot-amount-target {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--loot-text-muted);
+}
+
+/* 进度条 */
+.loot-progress-track {
+  height: 10px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+[data-theme="dark"] .loot-progress-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.loot-progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--loot-tint) 0%, var(--loot-tint-gold) 100%);
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 存取操作双按钮 */
+.loot-action-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.loot-btn-primary {
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--loot-tint) 0%, #0f766e 100%);
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-btn-primary:active {
+  transform: scale(0.97);
+  filter: brightness(0.95);
+}
+
+.loot-btn-secondary {
+  height: 48px;
+  border-radius: 16px;
+  background: var(--loot-card-solid);
+  border: 1px solid var(--loot-border);
+  color: var(--loot-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  box-shadow: var(--loot-shadow-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-btn-secondary:active {
+  transform: scale(0.97);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ── 智能储蓄规划卡片 ── */
+.loot-plan-card {
+  background: var(--loot-card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--loot-border);
+  border-radius: 24px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--loot-shadow-sm);
+}
+
+.loot-plan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.loot-plan-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--loot-text-primary);
+}
+
+.loot-plan-days {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--loot-tint);
+  background: rgba(13, 148, 136, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.loot-plan-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.loot-plan-item {
+  background: rgba(0, 0, 0, 0.025);
+  border: 1px solid var(--loot-border-light);
+  border-radius: 14px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+[data-theme="dark"] .loot-plan-item {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.loot-plan-item__label {
+  font-size: 11px;
+  color: var(--loot-text-muted);
+}
+
+.loot-plan-item__val {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--loot-text-primary);
+}
+
+.loot-plan-tip {
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--loot-text-secondary);
+  line-height: 1.4;
+  background: rgba(245, 158, 11, 0.08);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+/* ── 存取明细流水列表 ── */
+.loot-tx-card {
+  background: var(--loot-card-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--loot-border);
+  border-radius: 24px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  box-shadow: var(--loot-shadow-sm);
+}
+
+.loot-tx-header {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--loot-text-primary);
+  margin-bottom: 12px;
+}
+
+.loot-tx-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loot-tx-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--loot-border-light);
+}
+
+.loot-tx-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.loot-tx-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.loot-tx-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+
+.loot-tx-icon.deposit {
+  background: rgba(13, 148, 136, 0.14);
+  color: #0d9488;
+}
+
+.loot-tx-icon.withdraw {
+  background: rgba(239, 68, 68, 0.14);
+  color: #ef4444;
+}
+
+.loot-tx-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.loot-tx-note {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--loot-text-primary);
+}
+
+.loot-tx-time {
+  font-size: 10.5px;
+  color: var(--loot-text-muted);
+}
+
+.loot-tx-amount {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.loot-tx-amount.deposit {
+  color: #0d9488;
+}
+
+.loot-tx-amount.withdraw {
+  color: #ef4444;
+}
+
+/* ── 底部浮动毛玻璃 TabBar ── */
+.loot-tab-bar {
+  position: absolute;
+  bottom: calc(var(--loot-safe-bottom) + 8px);
+  left: 20px;
+  right: 20px;
+  height: 60px;
+  background: var(--loot-card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--loot-border);
+  border-radius: 32px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  z-index: 100;
+}
+
+.loot-tab-btn {
+  flex: 1;
+  height: 48px;
+  background: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  border-radius: 24px;
+  color: var(--loot-text-muted);
+  transition: all 0.2s ease;
+}
+
+.loot-tab-btn.is-active {
+  color: var(--loot-tint);
+  background: rgba(13, 148, 136, 0.08);
+}
+
+.loot-tab-btn__icon {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.loot-tab-btn__label {
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+/* ── 底部抽屉模态框 (Bottom Action Sheet) ── */
+.loot-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  animation: sheet-fade-in 0.2s ease-out;
+  overflow: hidden;
+}
+
+/* 仅在桌面仿真模式下，限制在仿真手机框内 */
+.loot-desktop-shell .loot-sheet-overlay {
+  position: absolute;
+  z-index: 200;
+}
+
+@keyframes sheet-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.loot-sheet-dialog {
+  background: var(--loot-card-solid);
+  border-radius: 32px 32px 0 0;
+  padding: 16px 20px calc(var(--loot-safe-bottom) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25);
+  animation: sheet-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 85dvh;
+  max-height: 85vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+@keyframes sheet-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.loot-sheet-handle {
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--loot-border);
+  align-self: center;
+  margin-bottom: 4px;
+}
+
+.loot-sheet-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--loot-text-primary);
+  text-align: center;
+}
+
+.loot-quick-chips {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.loot-quick-chip {
+  padding: 8px 14px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--loot-border-light);
+  color: var(--loot-text-primary);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .loot-quick-chip {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.loot-quick-chip:active {
+  transform: scale(0.95);
+  background: var(--loot-tint);
+  color: #fff;
+}
+
+.loot-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.loot-input-curr {
+  position: absolute;
+  left: 16px;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--loot-tint);
+}
+
+.loot-input-amount {
+  width: 100%;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 2px solid var(--loot-border);
+  border-radius: 20px;
+  padding: 0 16px 0 46px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--loot-text-primary);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+[data-theme="dark"] .loot-input-amount {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.loot-input-amount:focus {
+  border-color: var(--loot-tint);
+}
+
+.loot-input-note {
+  width: 100%;
+  height: 44px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--loot-border);
+  border-radius: 14px;
+  padding: 0 14px;
+  font-size: 13px;
+  color: var(--loot-text-primary);
+  outline: none;
+}
+
+[data-theme="dark"] .loot-input-note {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   极简 3D 轮播存钱罐与留白美学 (对齐参考图 2 & 3)
+   ══════════════════════════════════════════════════════════════ */
+
+.loot-minimal-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--loot-bg);
+  color: var(--loot-text-main);
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+/* 顶部极简导航栏 */
+.loot-minimal-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--loot-safe-top) + 14px) 20px 10px 20px;
+  width: 100%;
+  z-index: 20;
+}
+
+/* 左侧齿轮按钮 (对齐参考图 2) */
+.loot-gear-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .loot-gear-btn {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.loot-gear-btn:hover {
+  transform: scale(1.06);
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.loot-gear-btn:active {
+  transform: scale(0.94);
+}
+
+/* 右侧按钮组合 */
+.loot-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 顶部编辑管理罐子胶囊 */
+.loot-edit-jar-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: var(--loot-card-solid);
+  color: var(--loot-text-secondary);
+  border: 1px solid var(--loot-border);
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--loot-shadow-sm);
+}
+
+.loot-edit-jar-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--loot-text-primary);
+  transform: scale(1.03);
+}
+
+[data-theme="dark"] .loot-edit-jar-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--loot-text-primary);
+}
+
+[data-theme="dark"] .loot-edit-jar-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.loot-edit-jar-btn:active {
+  transform: scale(0.96);
+}
+
+/* 胶囊按钮 (添加进更多的钱 ➔) */
+.loot-add-more-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: rgba(34, 197, 94, 0.1);
+  color: #15803d;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .loot-add-more-pill {
+  background: rgba(34, 197, 94, 0.16);
+  color: #4ade80;
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.loot-add-more-pill:hover {
+  background: rgba(34, 197, 94, 0.18);
+  transform: scale(1.03);
+}
+
+.loot-add-more-pill:active {
+  transform: scale(0.96);
+}
+
+.loot-pill-arrow {
+  font-size: 12px;
+  font-weight: 900;
+  transition: transform 0.2s ease;
+}
+
+.loot-add-more-pill:hover .loot-pill-arrow {
+  transform: translateX(2px);
+}
+
+/* 右侧圆形加号按钮 */
+.loot-round-plus-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #22c55e;
+  color: #ffffff;
+  border: none;
+  font-size: 22px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-round-plus-btn:hover {
+  transform: scale(1.08);
+  background: #16a34a;
+}
+
+.loot-round-plus-btn:active {
+  transform: scale(0.94);
+}
+
+/* 核心居中舞台 (给存钱罐充分的留白与聚焦感) */
+.loot-minimal-center-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  user-select: none;
+  padding-bottom: calc(var(--loot-safe-bottom) + 36px);
+}
+
+/* ════ 3D Coverflow 轮播舞台 (对齐参考图 3) ════ */
+.loot-coverflow-wrapper {
+  position: relative;
+  width: 100%;
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.loot-coverflow-track {
+  position: relative;
+  width: 100%;
+  height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.loot-coverflow-track:active {
+  cursor: grabbing;
+}
+
+.loot-coverflow-item {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 220px;
+  height: 275px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  cursor: pointer;
+  will-change: transform, opacity;
+}
+
+.loot-coverflow-item.is-side {
+  filter: blur(0.6px);
+}
+
+/* 拟物透明玻璃罐身 */
+.loot-clean-jar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.loot-clean-jar__svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.07));
+}
+
+[data-theme="dark"] .loot-clean-jar__svg {
+  filter: drop-shadow(0 16px 36px rgba(0, 0, 0, 0.5));
+}
+
+/* 敲击回弹动画 */
+.loot-jar-jiggle {
+  animation: loot-jar-bounce 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes loot-jar-bounce {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(0.95) rotate(-3deg); }
+  50% { transform: scale(1.03) rotate(2deg); }
+  75% { transform: scale(0.98) rotate(-1deg); }
+}
+
+/* 轮播点状指示条 */
+.loot-coverflow-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 12px;
+  z-index: 10;
+}
+
+.loot-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--loot-text-muted);
+  opacity: 0.25;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-dot.is-active {
+  width: 18px;
+  background: #22c55e;
+  opacity: 0.9;
+}
+
+/* ════ 极简居中双行金额与目标修改交互 ════ */
+.loot-minimal-amount-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+  padding: 4px 16px;
+  border-radius: 24px;
+  z-index: 10;
+  gap: 6px;
+}
+
+.loot-current-amount {
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--loot-text-main);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  padding: 2px 14px;
+  border-radius: 16px;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-current-amount:hover {
+  transform: scale(1.03);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="dark"] .loot-current-amount:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.loot-current-amount:active {
+  transform: scale(0.97);
+}
+
+/* 目标储蓄金额行 (支持直接点击修改目标) */
+.loot-target-amount-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px dashed rgba(0, 0, 0, 0.14);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme="dark"] .loot-target-amount-row {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.loot-target-amount-row:hover {
+  transform: translateY(-1px);
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.loot-target-amount-row:active {
+  transform: scale(0.97);
+}
+
+.loot-target-amount {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--loot-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.loot-target-edit-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--loot-tint);
+  background: rgba(34, 197, 94, 0.12);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  transition: all 0.18s ease;
+}
+
+.loot-target-amount-row:hover .loot-target-edit-badge {
+  background: var(--loot-tint);
+  color: #ffffff;
+}
+
+/* 快捷操作胶囊按钮栏 */
+.loot-stage-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.loot-stage-action-pill {
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid var(--loot-border);
+  background: var(--loot-card-solid);
+  color: var(--loot-text-secondary);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-stage-action-pill:hover {
+  transform: translateY(-1px);
+  border-color: var(--loot-tint);
+  color: var(--loot-tint);
+  box-shadow: 0 3px 8px rgba(34, 197, 94, 0.15);
+}
+
+.loot-stage-action-pill:active {
+  transform: scale(0.95);
+}
+
+.loot-stage-action-pill.is-edit {
+  background: rgba(34, 197, 94, 0.08);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #15803d;
+}
+
+[data-theme="dark"] .loot-stage-action-pill.is-edit {
+  background: rgba(34, 197, 94, 0.16);
+  color: #4ade80;
+}
+
+/* 存钱罐删除安全确认卡片 */
+.loot-delete-confirm-box {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 20px;
+  padding: 22px 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: modal-fade-in 0.2s ease;
+}
+
+.loot-btn-danger {
+  height: 44px;
+  border-radius: 14px;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+  transition: all 0.18s ease;
+}
+
+.loot-btn-danger:hover {
+  background: #dc2626;
+  transform: scale(1.02);
+}
+
+.loot-btn-danger:active {
+  transform: scale(0.97);
+}
+
+/* ════ 设置与洞察抽屉 (Settings Sheet) ════ */
+.loot-settings-sheet {
+  background: var(--loot-card-solid);
+  border-radius: 32px 32px 0 0;
+  padding: 16px 20px calc(var(--loot-safe-bottom) + 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+  animation: sheet-slide-up 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loot-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.loot-settings-tab-pills {
+  display: flex;
+  background: rgba(142, 142, 147, 0.12);
+  padding: 3px;
+  border-radius: 9999px;
+  gap: 2px;
+}
+
+.loot-pill-tab {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--loot-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loot-pill-tab.is-active {
+  background: var(--loot-card-solid);
+  color: var(--loot-text-main);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.loot-global-stat-card {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 20px;
+  padding: 16px 18px;
+}
+
+.loot-settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.loot-settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 18px;
+  border: 1px solid var(--loot-border-light);
+}
+
+[data-theme="dark"] .loot-settings-item {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.loot-settings-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.loot-theme-toggle-group {
+  display: flex;
+  gap: 6px;
+}
+
+.loot-theme-btn {
+  padding: 7px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--loot-border);
+  background: var(--loot-card-solid);
+  color: var(--loot-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.loot-theme-btn.is-selected {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: #ffffff;
+}
+
